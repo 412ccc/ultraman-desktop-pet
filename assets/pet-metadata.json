@@ -1,0 +1,47 @@
+{
+  "name": "奥特曼 / Ultraman",
+  "description": "AI-generated chibi Ultraman fan-art pet sprite pack",
+  "spriteVersionNumber": 2,
+  "spritesheetPath": "assets/ultraman-spritesheet.png",
+  "sha256": "70e2de7d9c163cda4da08b2e93b37d1f953864bb689719246938243784b91666",
+  "spritesheetLayout": {
+    "columns": 8,
+    "rows": 11,
+    "cellWidth": 192,
+    "cellHeight": 208,
+    "lookDirectionCount": 16,
+    "neutralLookFrame": { "rowIndex": 0, "columnIndex": 0 }
+  },
+  "states": [
+    { "name": "idle", "label": "待机", "rowIndex": 0, "frameCount": 6 },
+    { "name": "running-right", "label": "向右跑", "rowIndex": 1, "frameCount": 8 },
+    { "name": "running-left", "label": "向左跑", "rowIndex": 2, "frameCount": 8 },
+    { "name": "waving", "label": "挥手", "rowIndex": 3, "frameCount": 4 },
+    { "name": "jumping", "label": "跳跃", "rowIndex": 4, "frameCount": 5 },
+    { "name": "failed", "label": "失落", "rowIndex": 5, "frameCount": 8 },
+    { "name": "waiting", "label": "等待回应", "rowIndex": 6, "frameCount": 6 },
+    { "name": "running", "label": "思考工作", "rowIndex": 7, "frameCount": 6 },
+    { "name": "review", "label": "检查结果", "rowIndex": 8, "frameCount": 6 }
+  ],
+  "lookAngleConvention": "0 degrees is screen-up; angles increase clockwise",
+  "lookDirections": [
+    { "degrees": 0, "rowIndex": 9, "columnIndex": 0 },
+    { "degrees": 22.5, "rowIndex": 9, "columnIndex": 1 },
+    { "degrees": 45, "rowIndex": 9, "columnIndex": 2 },
+    { "degrees": 67.5, "rowIndex": 9, "columnIndex": 3 },
+    { "degrees": 90, "rowIndex": 9, "columnIndex": 4 },
+    { "degrees": 112.5, "rowIndex": 9, "columnIndex": 5 },
+    { "degrees": 135, "rowIndex": 9, "columnIndex": 6 },
+    { "degrees": 157.5, "rowIndex": 9, "columnIndex": 7 },
+    { "degrees": 180, "rowIndex": 10, "columnIndex": 0 },
+    { "degrees": 202.5, "rowIndex": 10, "columnIndex": 1 },
+    { "degrees": 225, "rowIndex": 10, "columnIndex": 2 },
+    { "degrees": 247.5, "rowIndex": 10, "columnIndex": 3 },
+    { "degrees": 270, "rowIndex": 10, "columnIndex": 4 },
+    { "degrees": 292.5, "rowIndex": 10, "columnIndex": 5 },
+    { "degrees": 315, "rowIndex": 10, "columnIndex": 6 },
+    { "degrees": 337.5, "rowIndex": 10, "columnIndex": 7 }
+  ],
+  "validFrameCount": 73,
+  "previewFrameDurationMs": 140
+}

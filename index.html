@@ -1,0 +1,68 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>奥特曼桌宠 · 动作预览</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, "Microsoft YaHei", sans-serif; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #101728; color: #edf3fb; }
+    main { width: min(100% - 40px, 880px); margin: 56px auto 40px; }
+    .eyebrow { color: #75daf7; text-transform: uppercase; letter-spacing: .16em; font-size: 12px; }
+    h1 { font-size: clamp(28px, 5vw, 42px); letter-spacing: -.04em; margin: 12px 0; }
+    .intro { color: #afbed3; line-height: 1.8; margin: 0 0 24px; }
+    .badge { display: inline-block; padding: 7px 12px; margin-right: 6px; border: 1px solid #344257; border-radius: 99px; font-size: 12px; color: #c8d4e4; }
+    .card { border: 1px solid #344257; border-radius: 20px; overflow: hidden; margin-top: 24px; background: #182235; }
+    #stage { position: relative; min-height: 390px; display: grid; place-items: center; touch-action: pan-y; background: radial-gradient(ellipse at 50% 80%, #283952, #172337 72%); }
+    #stage::after { content: ""; position: absolute; width: 180px; height: 16px; border-radius: 50%; background: #0d1323; filter: blur(7px); bottom: 44px; pointer-events: none; }
+    #pet-button { appearance: none; border: 0; background: transparent; padding: 0; position: relative; z-index: 1; cursor: pointer; border-radius: 20px; }
+    #pet-button:focus-visible { outline: 2px solid #75daf7; outline-offset: 8px; }
+    #pet { display: block; width: 288px; height: 312px; }
+    #status { position: absolute; top: 20px; left: 24px; color: #b6c8dc; font-size: 13px; }
+    .tip { position: absolute; right: 24px; bottom: 16px; margin: 0; color: #879eb8; font-size: 12px; }
+    .controls { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; padding: 20px 24px; border-top: 1px solid #344257; }
+    .field { display: flex; gap: 8px; align-items: center; font-size: 13px; color: #cbd8e8; }
+    select, .wave { background: #24334a; color: #edf3fb; border: 1px solid #465c76; border-radius: 9px; padding: 9px 12px; font: inherit; }
+    select:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #75daf7; outline-offset: 3px; }
+    .wave { cursor: pointer; }
+    #follow { accent-color: #75daf7; width: 16px; height: 16px; }
+    footer { color: #8e9fb5; line-height: 1.8; font-size: 12px; margin-top: 22px; }
+    a { color: #8addf3; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    @media (max-width: 550px) { main { margin-top: 30px; } .controls { gap: 14px; padding: 18px; } #stage { min-height: 360px; } #pet { width: 264px; height: 286px; } }
+    @media (prefers-reduced-motion: reduce) { #stage::after { filter: none; opacity: .4; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="eyebrow">Ultraman · Pet Sprite Pack</div>
+    <h1>今天，也要守护你的工作。</h1>
+    <p class="intro">奥特曼桌宠的动作预览。移入鼠标看他转头，点击角色打个招呼。</p>
+    <span class="badge">9 组动作</span><span class="badge">16 个鼠标方向</span><span class="badge">73 帧 · 透明 PNG</span>
+    <section class="card" aria-label="桌宠素材预览">
+      <div id="stage">
+        <div id="status" role="status">正在加载图集 · Loading atlas…</div>
+        <button id="pet-button" aria-label="点击让奥特曼挥手 · Make Ultraman wave">
+          <canvas id="pet" width="192" height="208" aria-hidden="true"></canvas>
+        </button>
+        <p class="tip">鼠标离开区域后，继续播放所选动作</p>
+      </div>
+      <div class="controls">
+        <label class="field" for="state">动作 <select id="state" aria-label="选择动作"></select></label>
+        <label class="field" for="speed">速度 <select id="speed"><option value="0.75">0.75×</option><option value="1" selected>1×</option><option value="1.5">1.5×</option></select></label>
+        <label class="field"><input id="follow" type="checkbox" checked> 看向鼠标</label>
+        <button class="wave" id="wave">挥手 · Hello</button>
+      </div>
+    </section>
+    <footer>
+      这是素材与动作演示；桌面显示和交互由兼容宿主提供。<br>
+      AI 生成的奥特曼同人素材。角色及商标权利归相应权利人。原创工具代码采用 MIT；图片与视频另见 <a href="ASSET_TERMS.md">素材权利说明</a>。<br>
+      <a href="README.md">使用说明</a> · <a href="docs/previews/all-states.mp4">动画视频</a> · <a href="docs/previews/contact-sheet.png">完整帧表</a>
+    </footer>
+    <noscript><p>请启用 JavaScript 查看交互预览，或打开 <a href="docs/previews/all-states.gif">GIF 动画</a>。</p></noscript>
+  </main>
+  <script src="assets/preview.js"></script>
+  <script>PetSpritePreview.mount();</script>
+</body>
+</html>
