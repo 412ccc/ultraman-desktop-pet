@@ -17,6 +17,14 @@ internal static class WindowsTests
     {
         try
         {
+            Check(new InstallPaths(null).DirectoryPath == @"D:\Apps\UltramanDesktopPet", "default installation goes to D drive");
+            Check(PetSettings.PathForDirectory(@"D:\Apps\UltramanDesktopPet") == @"D:\Apps\UltramanDesktopPet\data\position.txt", "installed settings stay with D drive program");
+            Check(PetSettings.PathForDirectory(@"E:\Pets\Ultraman") == @"E:\Pets\Ultraman\data\position.txt", "portable settings stay on its non-C drive");
+            Check(PetSettings.PathForDirectory(@"C:\Users\Example\Downloads") == @"D:\Apps\UltramanDesktopPet\data\position.txt", "C drive launch does not save data to C");
+            Check(new InstallPaths(null).WorkerDirectory == @"D:\Apps\.UltramanPetTemp", "uninstall temporary worker stays on D drive");
+            bool cRejected = false;
+            try { new InstallPaths(@"C:\pet-test"); } catch (InvalidOperationException) { cRejected = true; }
+            Check(cRejected, "C drive test install rejected before writing");
             for (int i = 0; i < 16; i++)
             {
                 double angle = i * Math.PI / 8;
@@ -55,6 +63,8 @@ internal static class WindowsTests
             string root = Path.Combine(Path.GetFullPath(args[0]), "sandbox-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(root);
             InstallPaths paths = new InstallPaths(root);
+            InstallEngine.Install(paths, false);
+            Check(!File.Exists(paths.DesktopLink) && !Directory.Exists(paths.MenuDirectory), "no shortcut files created unless requested");
             InstallEngine.Install(paths, true);
             Check(paths.Owned(), "installation ownership marker");
             Check(Digest(File.ReadAllBytes(paths.App)) == Digest(InstallEngine.Resource("PetExe")), "installed executable exactly matches payload");

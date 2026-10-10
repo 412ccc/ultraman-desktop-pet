@@ -2,9 +2,11 @@
 
 Q 版银红奥特曼同人桌宠，支持 **Windows 10 / 11**。透明背景、9 组动作、16 个看向鼠标的姿势；可以点击、拖动，也可以放在桌面陪你工作。
 
-**[下载安装版](https://github.com/412ccc/ultraman-desktop-pet/releases/download/v1.0.0/UltramanPet-Setup-1.0.0.exe)** · **[下载免安装 ZIP](https://github.com/412ccc/ultraman-desktop-pet/releases/download/v1.0.0/UltramanPet-Portable-1.0.0.zip)** · [发布与校验文件](https://github.com/412ccc/ultraman-desktop-pet/releases/latest)
+**[下载安装版](https://github.com/412ccc/ultraman-desktop-pet/releases/download/v1.0.1/UltramanPet-Setup-1.0.1.exe)** · **[下载免安装 ZIP](https://github.com/412ccc/ultraman-desktop-pet/releases/download/v1.0.1/UltramanPet-Portable-1.0.1.zip)** · [发布与校验文件](https://github.com/412ccc/ultraman-desktop-pet/releases/latest)
 
-安装版打开后点击“安装”；免安装版解压后双击 `UltramanPet.exe`。运行时无需 ChatGPT、Python 或联网。程序使用 Windows 自带的 .NET Framework 4.x，只安装到当前用户，无需管理员权限。发布文件未做数字签名，Windows 可能显示未知发布者。
+安装版打开后点击“安装”，默认保存到 `D:\Apps\UltramanDesktopPet`；免安装版解压到 D 盘或其他非 C 盘后双击 `UltramanPet.exe`。位置设置保存在程序旁的 `data/`，卸载临时文件也放在 D 盘。安装版需要可写的 D 盘；快捷方式默认不创建，仅在勾选时写入 Windows 桌面和开始菜单。Windows 自身的安装记录、系统缓存仍由系统管理。
+
+运行时无需 ChatGPT、Python 或联网。程序使用 Windows 自带的 .NET Framework 4.x，注册当前用户的安装记录，无需管理员权限。发布文件未做数字签名，Windows 可能显示未知发布者。
 
 ![动作预览](docs/previews/all-states.gif)
 
@@ -68,7 +70,7 @@ python -m unittest discover -s tests
 
 工具将 73 个格子原样提取到 `build/frames/`，并在 `build/previews/` 导出九组动作 GIF 和鼠标方向 GIF。原始 PNG 不会被修改。预览使用浅色背景；逐帧 PNG 保留透明通道。使用 `--help` 查看输出目录和播放速度选项。
 
-在 Windows 上执行 `python tools/build_windows.py` 可编译程序，运行 171 项检查，并在 `dist/` 输出安装 EXE、免安装 ZIP 与 SHA-256 校验文件。构建依赖和检查范围见 [Windows 开发说明](windows/README.md)。
+在非 C 盘的 Windows 工作目录中执行 `python tools/build_windows.py` 可编译程序，运行 178 项检查，并在 `dist/` 输出安装 EXE、免安装 ZIP 与 SHA-256 校验文件。构建临时文件也保存在项目内。构建依赖和检查范围见 [Windows 开发说明](windows/README.md)。
 
 ## 许可与角色权利
 
@@ -78,7 +80,7 @@ python -m unittest discover -s tests
 
 ## English
 
-A standalone, transparent **Windows 10/11 desktop pet** with nine animation states and sixteen cursor-facing poses. Download the installer or portable ZIP above. Hover nearby to greet/look, click to jump, double-click to wave, drag to move, and right-click for actions, size and exit. It runs offline with .NET Framework 4.x; Python and ChatGPT are not needed. Binaries are unsigned. The installer operates only on the current user's account. Automatic startup and automatic walking are off by default.
+A standalone, transparent **Windows 10/11 desktop pet** with nine animation states and sixteen cursor-facing poses. Download the installer or portable ZIP above. The installer uses `D:\Apps\UltramanDesktopPet` and requires a writable D: drive; portable builds can be extracted to another non-C: drive. App settings stay in its `data/` directory (C: launches redirect settings to the D: default), and uninstall helpers are on D:. Shortcuts are opt-in; Windows-managed installation records and caches remain managed by the OS. Hover nearby to greet/look, click to jump, double-click to wave, drag to move, and right-click for actions, size and exit. It runs offline with .NET Framework 4.x; Python and ChatGPT are not needed. Binaries are unsigned. Automatic startup and automatic walking are off by default.
 
 The repository also includes a transparent atlas compatible with the ChatGPT Work custom Pets v2 layout, animation proofs and an offline browser preview. Open `index.html` locally to preview states and cursor tracking. For integration with other hosts, see [import notes](docs/import.md). The atlas is 1536 × 2288 px, arranged as 8 columns and 11 rows with 192 × 208 px cells. It contains 57 animation frames and 16 look poses. Look angles start at screen-up (0°) and progress clockwise in 22.5° steps. See [Windows source/build notes](windows/README.md) for compiling and testing the standalone app.
 

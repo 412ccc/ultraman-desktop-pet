@@ -1,7 +1,15 @@
-奥特曼桌宠 1.0.0 · Windows 10 / 11
+奥特曼桌宠 1.0.1 · Windows 10 / 11
 
-安装版：打开 UltramanPet-Setup-1.0.0.exe，点击“安装”。
+安装版：打开 UltramanPet-Setup-1.0.1.exe，点击“安装”。
 免安装版：解压 ZIP，双击 UltramanPet.exe。
+
+安装目录：D:\Apps\UltramanDesktopPet，需要有可写的 D 盘。
+位置设置：安装目录中的 data\position.txt。
+卸载临时文件：D:\Apps\.UltramanPetTemp，不使用 C 盘临时目录。
+免安装版放在 D 盘或其他非 C 盘后，设置保存在程序旁的 data 目录。
+从 C 盘启动时，设置仍转存到 D:\Apps\UltramanDesktopPet\data。
+桌面和开始菜单快捷方式默认不创建，仅在你勾选时创建。
+Windows 自身的安装记录、系统缓存仍由系统管理。
 
 鼠标靠近桌宠：先挥手，再转头看向鼠标。
 单击：跳跃。双击：挥手。
@@ -20,7 +28,11 @@
 原创程序代码：MIT。奥特曼同人素材的第三方权利另见 ASSET_TERMS.txt。
 
 English: Run Setup to install for the current user, or extract the portable ZIP
-and run UltramanPet.exe. Hover nearby to greet/look, click to jump, double-click
+and run UltramanPet.exe. Setup installs to D:\Apps\UltramanDesktopPet. Settings
+are stored in the app's data directory; launching from C: uses the D: default
+for settings. Uninstall helpers are written to D:. Shortcuts are opt-in.
+Windows-managed installation records and caches are outside app file storage.
+Hover nearby to greet/look, click to jump, double-click
 to wave, drag with the left button, and right-click for actions, size and exit.
 Requires Windows 10/11 with .NET Framework 4.x; no Python, ChatGPT or network
 is needed to run. Exit the pet before uninstalling. Personal position settings

@@ -10,14 +10,20 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using UltramanStorage;
 
 [assembly: AssemblyTitle("Ultraman Desktop Pet")]
 [assembly: AssemblyDescription("Offline animated desktop companion")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 
 namespace UltramanPet
 {
+    public static class PetSettings
+    {
+        public static string PathForDirectory(string applicationDirectory)
+        { return Path.Combine(StoragePaths.DataFor(applicationDirectory), "position.txt"); }
+    }
     public static class PetMath
     {
         public static readonly int[] FrameCounts = { 6, 8, 8, 4, 5, 8, 6, 6, 6 };
@@ -139,8 +145,7 @@ namespace UltramanPet
         private readonly System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
         private readonly Random random = new Random();
         private readonly bool smoke;
-        private readonly string settings = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            "UltramanDesktopPet", "position.txt");
+        private readonly string settings = PetSettings.PathForDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
         private int displayWidth = 144, actionRow, lastRow = -1, lastColumn = -1;
         private long actionStart, actionUntil, nextIdle = 16000, nextGreeting, lastClick = -10000;
         private bool nearBefore, dragging, moved, follow = true, autoWalk, recovering;

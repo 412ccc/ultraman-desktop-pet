@@ -9,12 +9,14 @@ from zipfile import ZIP_DEFLATED, ZipFile
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 
 def main():
     if os.name != "nt":
         raise SystemExit("Build this target on Windows with .NET Framework 4.x installed.")
+    if ROOT.drive.upper() == "C:":
+        raise SystemExit("Build from a folder on D: or another non-C: drive.")
     windows = Path(os.environ.get("WINDIR", r"C:\Windows"))
     compilers = [windows / folder / "v4.0.30319" / "csc.exe" for folder in
                  ("Microsoft.NET/Framework64", "Microsoft.NET/Framework")]
@@ -25,6 +27,9 @@ def main():
     output = ROOT / "dist"
     build.mkdir(parents=True, exist_ok=True)
     output.mkdir(parents=True, exist_ok=True)
+    temporary = build / "tmp"
+    temporary.mkdir(parents=True, exist_ok=True)
+    os.environ["TEMP"] = os.environ["TMP"] = str(temporary)
     with Image.open(ROOT / "assets" / "ultraman-spritesheet.png") as atlas:
         hero = atlas.crop((0, 0, 192, 208))
         hero.save(build / "hero.png")
@@ -41,13 +46,13 @@ def main():
     setup = build / "UltramanPetSetup.exe"
     subprocess.run(common + gui + ["/out:" + str(pet),
                    "/resource:" + str(ROOT / "assets" / "ultraman-spritesheet.png") + ",PetAtlas",
-                   str(ROOT / "windows" / "Pet.cs")], check=True)
+                   str(ROOT / "windows" / "Storage.cs"), str(ROOT / "windows" / "Pet.cs")], check=True)
     resources = [(pet, "PetExe"), (ROOT / "LICENSE", "CodeLicense"),
                  (ROOT / "ASSET_TERMS.md", "AssetTerms"), (ROOT / "windows" / "USER_GUIDE.txt", "UserGuide"),
                  (build / "hero.png", "Hero")]
     subprocess.run(common + gui + ["/out:" + str(setup)] +
                    ["/resource:" + str(path) + "," + name for path, name in resources] +
-                   [str(ROOT / "windows" / "Setup.cs")], check=True)
+                   [str(ROOT / "windows" / "Storage.cs"), str(ROOT / "windows" / "Setup.cs")], check=True)
     tests = build / "WindowsTests.exe"
     subprocess.run(common + ["/target:exe", "/out:" + str(tests), "/reference:" + str(pet),
                    "/reference:" + str(setup), str(ROOT / "windows" / "Tests.cs")], check=True)

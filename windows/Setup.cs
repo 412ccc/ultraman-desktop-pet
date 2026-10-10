@@ -9,10 +9,11 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using UltramanStorage;
 
 [assembly: AssemblyTitle("Ultraman Desktop Pet Setup")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 
 namespace UltramanSetup
 {
@@ -25,9 +26,8 @@ namespace UltramanSetup
         public InstallPaths(string sandboxRoot)
         {
             Sandbox = sandboxRoot != null;
-            string programs = Sandbox ? Path.Combine(Path.GetFullPath(sandboxRoot), "Programs") :
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Programs");
-            DirectoryPath = Path.GetFullPath(Path.Combine(programs, "UltramanDesktopPet"));
+            string programs = Sandbox ? Path.Combine(StoragePaths.RequireNonC(sandboxRoot), "Programs") : @"D:\Apps";
+            DirectoryPath = StoragePaths.RequireNonC(Path.Combine(programs, "UltramanDesktopPet"));
             if (!DirectoryPath.StartsWith(Path.GetFullPath(programs).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar,
                 StringComparison.OrdinalIgnoreCase)) throw new InvalidOperationException("Unsafe installation path");
             string desktop = Sandbox ? Path.Combine(sandboxRoot, "Desktop") : Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
@@ -38,6 +38,7 @@ namespace UltramanSetup
         }
         public string App { get { return Path.Combine(DirectoryPath, "UltramanPet.exe"); } }
         public string Uninstaller { get { return Path.Combine(DirectoryPath, "Uninstall.exe"); } }
+        public string WorkerDirectory { get { return StoragePaths.WorkerFor(DirectoryPath); } }
         public bool Owned()
         {
             string marker = Path.Combine(DirectoryPath, Marker);
@@ -79,15 +80,17 @@ namespace UltramanSetup
             Write(Path.Combine(paths.DirectoryPath, "ASSET_TERMS.txt"), Resource("AssetTerms"));
             Write(Path.Combine(paths.DirectoryPath, "README.txt"), Resource("UserGuide"));
             Write(paths.Uninstaller, File.ReadAllBytes(typeof(InstallEngine).Assembly.Location));
-            Directory.CreateDirectory(paths.MenuDirectory);
-            CreateOwnedShortcut(paths.MenuLink, paths.App);
-            if (desktop) { Directory.CreateDirectory(Path.GetDirectoryName(paths.DesktopLink)); CreateOwnedShortcut(paths.DesktopLink, paths.App); }
+            if (desktop)
+            {
+                Directory.CreateDirectory(paths.MenuDirectory); CreateOwnedShortcut(paths.MenuLink, paths.App);
+                Directory.CreateDirectory(Path.GetDirectoryName(paths.DesktopLink)); CreateOwnedShortcut(paths.DesktopLink, paths.App);
+            }
             if (!paths.Sandbox)
             {
                 using (RegistryKey key = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\" + InstallPaths.ProductId))
                 {
                     key.SetValue("DisplayName", "奥特曼桌宠");
-                    key.SetValue("DisplayVersion", "1.0.0");
+                    key.SetValue("DisplayVersion", "1.0.1");
                     key.SetValue("Publisher", "412ccc / Ultraman Desktop Pet contributors");
                     key.SetValue("InstallLocation", paths.DirectoryPath);
                     key.SetValue("DisplayIcon", paths.App + ",0");
@@ -179,15 +182,15 @@ namespace UltramanSetup
             Label title = new Label { Text = removal ? "卸载奥特曼桌宠" : "把奥特曼带到桌面", AutoSize = true,
                 Font = new Font(Font.FontFamily, 18, FontStyle.Bold), Location = new Point(215, 26) };
             Controls.Add(title);
-            Controls.Add(new Label { Text = removal ? "移除程序及快捷方式。你的桌宠位置设置会保留。" : "透明背景，鼠标互动，九组动作。\n安装到当前用户，无需管理员权限。",
+            Controls.Add(new Label { Text = removal ? "移除程序及快捷方式。你的桌宠位置设置会保留。" : "透明背景，鼠标互动，九组动作。\n程序和设置保存到 D:\\Apps\\UltramanDesktopPet",
                 Location = new Point(219, 80), Size = new Size(378, 62) });
-            desktop.Text = "创建桌面快捷方式"; desktop.Checked = true; desktop.AutoSize = true; desktop.Location = new Point(220, 157);
+            desktop.Text = "创建桌面和开始菜单快捷方式（可选）"; desktop.Checked = false; desktop.AutoSize = true; desktop.Location = new Point(220, 157);
             launch.Text = "安装后打开桌宠"; launch.Checked = true; launch.AutoSize = true; launch.Location = new Point(220, 190);
             if (!removal) { Controls.Add(desktop); Controls.Add(launch); }
             LinkLabel terms = new LinkLabel { Text = "许可与素材权利说明", AutoSize = true, Location = new Point(220, 239) };
             terms.LinkClicked += delegate { MessageBox.Show(System.Text.Encoding.UTF8.GetString(InstallEngine.Resource("AssetTerms")), "素材权利说明", MessageBoxButtons.OK, MessageBoxIcon.Information); };
             Controls.Add(terms);
-            Controls.Add(new Label { Text = "1.0.0 · Windows 10 / 11\n奥特曼同人作品", Size = new Size(245, 38),
+            Controls.Add(new Label { Text = "1.0.1 · Windows 10 / 11\n奥特曼同人作品", Size = new Size(245, 38),
                 Font = new Font(Font.FontFamily, 8), ForeColor = Color.DimGray, Location = new Point(218, 278) });
             install.Text = removal ? "卸载" : "安装"; install.Location = new Point(480, 275); install.Size = new Size(110, 38);
             install.Click += InstallClicked; Controls.Add(install); AcceptButton = install;
@@ -201,7 +204,8 @@ namespace UltramanSetup
                 {
                     if (!paths.Owned()) throw new InvalidOperationException("未找到本程序的安装记录。");
                     if (InstallEngine.PetRunning()) throw new InvalidOperationException("请先在桌宠右键菜单中选择退出，再卸载。");
-                    string temporary = Path.Combine(Path.GetTempPath(), "UltramanPet-Uninstall-" + Guid.NewGuid().ToString("N") + ".exe");
+                    Directory.CreateDirectory(paths.WorkerDirectory);
+                    string temporary = Path.Combine(paths.WorkerDirectory, "UltramanPet-Uninstall-" + Guid.NewGuid().ToString("N") + ".exe");
                     File.Copy(Assembly.GetExecutingAssembly().Location, temporary);
                     Process.Start(new ProcessStartInfo(temporary, "--uninstall-worker " + Process.GetCurrentProcess().Id)
                         { UseShellExecute = false, CreateNoWindow = true, WindowStyle = ProcessWindowStyle.Hidden });
