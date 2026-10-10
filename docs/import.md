@@ -1,5 +1,7 @@
 # 导入与接入 / Import and Integration
 
+Windows 独立桌宠已包含在本项目中，直接下载 [安装版或免安装版](https://github.com/412ccc/ultraman-desktop-pet/releases/latest) 即可使用；不需要先导入其他宿主。下面的说明用于将图集接入 ChatGPT Work 或其他桌宠宿主。
+
 ## ChatGPT Work 自定义桌宠
 
 在支持自定义 Pets 的 ChatGPT Work 环境中，把 `assets/ultraman-spritesheet.png` 提供给桌宠创建或更新工具，并提供 `assets/pet-metadata.json` 的布局参数：

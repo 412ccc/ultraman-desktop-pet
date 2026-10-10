@@ -1,0 +1,27 @@
+奥特曼桌宠 1.0.0 · Windows 10 / 11
+
+安装版：打开 UltramanPet-Setup-1.0.0.exe，点击“安装”。
+免安装版：解压 ZIP，双击 UltramanPet.exe。
+
+鼠标靠近桌宠：先挥手，再转头看向鼠标。
+单击：跳跃。双击：挥手。
+按住鼠标左键：拖动到喜欢的位置。
+右键：播放九种动作、调整大小、切换鼠标互动和自动走动。
+右键“退出桌宠”：关闭程序。任务栏右下角托盘图标也有菜单。
+默认不开机自启。运行时不联网、不需要 ChatGPT / Python。
+需要 Windows 自带的 .NET Framework 4.x。
+
+卸载安装版：先退出桌宠，再从 Windows“已安装的应用”卸载，
+或运行安装目录中的 Uninstall.exe。卸载保留个人位置设置。
+免安装版退出后即可自行删除解压目录。
+
+本发布包未做数字签名，Windows 可能显示未知发布者。
+源码：https://github.com/412ccc/ultraman-desktop-pet
+原创程序代码：MIT。奥特曼同人素材的第三方权利另见 ASSET_TERMS.txt。
+
+English: Run Setup to install for the current user, or extract the portable ZIP
+and run UltramanPet.exe. Hover nearby to greet/look, click to jump, double-click
+to wave, drag with the left button, and right-click for actions, size and exit.
+Requires Windows 10/11 with .NET Framework 4.x; no Python, ChatGPT or network
+is needed to run. Exit the pet before uninstalling. Personal position settings
+are retained. Binaries are unsigned. Code is MIT; artwork rights are separate.

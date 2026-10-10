@@ -2,9 +2,10 @@ MIT License
 
 Copyright (c) 2026 Ultraman Pet Sprite Pack contributors
 
-Scope: this license applies only to the original helper scripts and preview
-source code in this repository. Character artwork, sprite images, and derived
-image/video previews are excluded. See ASSET_TERMS.md for asset notices.
+Scope: this license applies to original program, installer, helper, test and
+preview source code in this repository. Character artwork, sprite images, and
+derived image/video previews are excluded, including artwork embedded in
+executables and icons. See ASSET_TERMS.md for asset notices.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
